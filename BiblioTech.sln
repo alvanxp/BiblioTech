@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiblioTech.Api", "BiblioTech.Api\BiblioTech.Api.csproj", "{C8CE7E7F-F6FB-4465-BCEF-9284020CC225}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiblioTech.Test", "BiblioTech.Test\BiblioTech.Test.csproj", "{C4A921A0-A108-48DF-B518-88A49500521B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C8CE7E7F-F6FB-4465-BCEF-9284020CC225}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8CE7E7F-F6FB-4465-BCEF-9284020CC225}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8CE7E7F-F6FB-4465-BCEF-9284020CC225}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8CE7E7F-F6FB-4465-BCEF-9284020CC225}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4A921A0-A108-48DF-B518-88A49500521B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4A921A0-A108-48DF-B518-88A49500521B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4A921A0-A108-48DF-B518-88A49500521B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4A921A0-A108-48DF-B518-88A49500521B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8CCF2D28-05F1-44C7-B812-FAF90F86A765}
+	EndGlobalSection
+EndGlobal
