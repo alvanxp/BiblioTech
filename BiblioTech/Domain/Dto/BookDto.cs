@@ -1,3 +1,3 @@
 ﻿namespace BiblioTech.Domain.Dto;
 
-public record BookDto(string Title, string Author, int Year, string Genre, string Description);
+public record BookDto(int? Id, string Title, string Author,  string Genre, string Description, DateTime PublishDate, decimal Price, string ISBN);
