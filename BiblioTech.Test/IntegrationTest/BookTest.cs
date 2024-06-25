@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http.Json;
 using System.Text;
 using BiblioTech;
 using BiblioTech.Domain.Dto;
@@ -6,17 +7,43 @@ using Newtonsoft.Json;
 
 namespace BiblioTech.Test.IntegrationTest
 {
-    public class BookTest(SqlServerContainer sqlServerContainer) : BaseTest(sqlServerContainer)
+    public class BookTest : BaseTest
     {
+        private  string token;
+        public BookTest(SqlServerContainer sqlServerContainer) : base(sqlServerContainer)
+        {
+            token = GetToken().GetAwaiter().GetResult();
+            Client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+        }
+
+        private  async Task<string> GetToken()
+        {
+            var url = "api/login/register";
+            var model = new RegisterRequest()
+            {
+                Username = Guid.NewGuid().ToString(),
+                Password = "testpassword",
+                FirstName = "John",
+                LastName = "Doe"
+            };
+
+            var response = await Client.PostAsJsonAsync(url, model);
+            response.EnsureSuccessStatusCode();
+            var stringResponse = await response.Content.ReadAsStringAsync();
+            var user = JsonConvert.DeserializeObject<AuthenticateResponse>(stringResponse);
+
+            return user.Token;
+        }
+
         [Fact]
         public async Task GetBooks_ReturnsSuccessStatusCode()
         {
             // Arrange
             var url = "api/Books";
-
+        
             // Act
             var response = await Client.GetAsync(url);
-
+        
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
@@ -48,6 +75,7 @@ namespace BiblioTech.Test.IntegrationTest
             var content = new StringContent(JsonConvert.SerializeObject(book), Encoding.UTF8, "application/json");
 
             // Act
+            
             var response = await Client.PostAsync(url, content);
 
             var queryResponse = await Client.GetAsync(url);

@@ -1,5 +1,6 @@
 ﻿using BiblioTech.Domain.Dto;
 using BiblioTech.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -7,6 +8,7 @@ namespace BiblioTech.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class BooksController(IBookService bookService) : ControllerBase
 {
     // GET
