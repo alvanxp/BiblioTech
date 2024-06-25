@@ -1,0 +1,24 @@
+services:
+  web:
+    build: BiblioTech
+    ports:
+      - 5657:80
+  db:
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: abcDEF123#
+      MSSQL_PID: Developer
+      MSSQL_TCP_PORT: 1433
+    # mssql server iimage isn't available for arm64 architecture, so we use azure-sql instead
+    image: alvanxp/bookstore-db-image:latest
+    # If you really want to use MS SQL Server, uncomment the following line
+    #image: mcr.microsoft.com/mssql/server
+    restart: always
+    healthcheck:
+        test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P abcDEF123# -Q 'SELECT 1' || exit 1"]
+        interval: 10s
+        retries: 10
+        start_period: 10s
+        timeout: 3s     
+         
+       
