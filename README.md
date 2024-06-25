@@ -41,5 +41,5 @@ Additional Notes:
 
 INSTRUCTIONS:
 
-- Run `docker compose up` to start the application, in the root directory.
+- Run `docker compose up -d` to start the application, in the root directory.
 - Access the Swagger UI to test the API: [http://localhost:5657/swagger/index.html](http://localhost:5657/swagger/index.html)
