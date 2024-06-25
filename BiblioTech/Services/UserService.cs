@@ -40,7 +40,7 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
         }
 
         // authentication successful so generate jwt token
-        var token =  GenerateJwtToken(user.Id.ToString());
+        var token = GenerateJwtToken(user.Id.ToString());
 
         return new ResultDto<AuthenticateResponse?>()
         {
@@ -89,8 +89,8 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
         var token = GenerateJwtToken(updatedUser.Id.ToString());
         return new ResultDto<AuthenticateResponse>
         {
-           Success = true,
-           Message = "User registered successfully.",
+            Success = true,
+            Message = "User registered successfully.",
             Data = new AuthenticateResponse()
             {
                 Id = updatedUser.Id,
@@ -111,18 +111,19 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
         return Convert.ToBase64String(hash);
     } // helper methods
 
-private string GenerateJwtToken(string id)
-{
-    var tokenHandler = new JwtSecurityTokenHandler();
-    var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
-    var tokenDescriptor = new SecurityTokenDescriptor
+    private string GenerateJwtToken(string id)
     {
-        Subject = new ClaimsIdentity(new[] { new Claim("id", id) }),
-        Expires = DateTime.UtcNow.AddDays(7),
-        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-        Issuer = _jwtSettings.Issuer,
-        Audience = _jwtSettings.Audience
-    };
-    var token = tokenHandler.CreateToken(tokenDescriptor);
-    return tokenHandler.WriteToken(token);
-}}
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(new[] { new Claim("id", id) }),
+            Expires = DateTime.UtcNow.AddDays(7),
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+            Issuer = _jwtSettings.Issuer,
+            Audience = _jwtSettings.Audience
+        };
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
+    }
+}

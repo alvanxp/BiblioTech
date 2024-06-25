@@ -43,7 +43,7 @@ public class UserTest(SqlServerContainer sqlServerContainer) : BaseTest(sqlServe
         // Act
         var response = await Client.PostAsync(url, content);
         // Assert
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         
         //request to /api/login/authenticate with the same username and password
         var authenticateUrl = "api/login/authenticate";

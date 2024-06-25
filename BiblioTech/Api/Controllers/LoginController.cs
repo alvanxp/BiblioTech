@@ -29,6 +29,6 @@ public class LoginController(IUserService userService) : ControllerBase
         var response = await userService.Register(registerRequest);
         if (!response.Success)
             return BadRequest(new { message = response.Message });
-        return Ok(response.Data);
+        return StatusCode(StatusCodes.Status201Created, response.Data);
     }
 }
