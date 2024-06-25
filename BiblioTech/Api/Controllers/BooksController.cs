@@ -34,6 +34,5 @@ public class BooksController(IBookService bookService) : ControllerBase
     {
         var result = await bookService.AddBook(book);
         return Created("", book);
-        
     }
 }

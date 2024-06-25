@@ -14,6 +14,9 @@ public class Program
         builder.Services.AddSwaggerGen();
         builder.Services.AddControllers();
         builder.Services.Configure<ConnectionString>(builder.Configuration.GetSection("ConnectionStrings"));
+        builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+        builder.Services.AddSingleton<IUserRepository, UserRepository>();
+        builder.Services.AddSingleton<IUserService, UserService>();
         builder.Services.AddSingleton<IBookRepository, BookRepository>();
         builder.Services.AddSingleton<IBookService, BookService>();
         var app = builder.Build();

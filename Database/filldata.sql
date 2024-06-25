@@ -30,3 +30,15 @@ insert into Book(Title, Description, Author, ISBN, PublishDate, Price, Genre) va
 insert into Book(Title, Description, Author, ISBN, PublishDate, Price, Genre) values ('Angels & Demons', 'Angels & Demons is a 2000 bestselling mystery-thriller novel written by American author Dan Brown.', 'Dan Brown', '9780671027360', '2000-05-16', 11.99, 'Mystery');
 insert into Book(Title, Description, Author, ISBN, PublishDate, Price, Genre) values ('The Lost Symbol', 'The Lost Symbol is a 2009 novel written by American writer Dan Brown.', 'Dan Brown', '9780385504225', '2009-09-15', 13.99, 'Mystery');
 go
+create table [User]
+(
+    Id int identity(1,1) primary key,
+    UserName nvarchar(50) not null,
+    FirstName nvarchar(50) not null,
+    LastName nvarchar(50) not null,
+    HashedPassword nvarchar(100) not null,
+    Salt nvarchar(100) not null
+);
+
+--add a default sa user
+
