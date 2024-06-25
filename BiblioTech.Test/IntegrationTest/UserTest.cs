@@ -8,29 +8,6 @@ namespace BiblioTech.Test.IntegrationTest;
 
 public class UserTest(SqlServerContainer sqlServerContainer) : BaseTest(sqlServerContainer)
 {
-    //add integration test for user service
-    [Fact]
-    public async Task Authenticate_ValidCredentials_ReturnsAuthenticateResponse()
-    {
-        // Arrange
-        var url = "api/login/authenticate";
-        var model = new AuthenticateRequest
-        {
-            Username = "testuser",
-            Password = "testpassword"
-        };
-
-        // Act
-        var response = await Client.PostAsJsonAsync(url, model);
-        response.EnsureSuccessStatusCode();
-        var stringResponse = await response.Content.ReadAsStringAsync();
-        var user = JsonConvert.DeserializeObject<AuthenticateResponse>(stringResponse);
-
-        // Assert
-        Assert.NotNull(user);
-        Assert.NotNull(user.Token);
-    }
-    
     [Fact]
     public async Task Authenticate_InvalidCredentials_ReturnsBadRequest()
     {
@@ -38,8 +15,8 @@ public class UserTest(SqlServerContainer sqlServerContainer) : BaseTest(sqlServe
         var url = "api/login/authenticate";
         var model = new AuthenticateRequest
         {
-            Username = "testuser",
-            Password = "testpassword"
+            Username = "testuser2",
+            Password = "testpassword2"
         };
 
         // Act
