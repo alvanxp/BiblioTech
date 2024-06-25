@@ -33,6 +33,12 @@ Interface:
 
 - A simple web interface, Postman workspace, or Swagger UI is available for interacting with the API.
 
+Testing Process:
+
+- Unit tests, integration tests, and test containers are used for testing.
+- The MSSQL server image is downloaded and populated with test data.
+- An image is created from the populated database and uploaded to Docker Hub for reuse in testing the application.
+
 Additional Notes:
 
 - The user story focuses on the core functionality of the application.
@@ -43,3 +49,4 @@ INSTRUCTIONS:
 
 - Run `docker compose up -d` to start the application, in the root directory.
 - Access the Swagger UI to test the API: [http://localhost:5657/swagger/index.html](http://localhost:5657/swagger/index.html)
+
