@@ -9,10 +9,9 @@ namespace BiblioTech.Test.IntegrationTest
 {
     public class BookTest : BaseTest
     {
-        private  string token;
         public BookTest(SqlServerContainer sqlServerContainer) : base(sqlServerContainer)
         {
-            token = GetToken().GetAwaiter().GetResult();
+            var token = GetToken().GetAwaiter().GetResult();
             Client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
         }
 
@@ -75,17 +74,15 @@ namespace BiblioTech.Test.IntegrationTest
             var content = new StringContent(JsonConvert.SerializeObject(book), Encoding.UTF8, "application/json");
 
             // Act
-            
             var response = await Client.PostAsync(url, content);
-
             var queryResponse = await Client.GetAsync(url);
             response.EnsureSuccessStatusCode();
             var stringResponse = await queryResponse.Content.ReadAsStringAsync();
             var books = JsonConvert.DeserializeObject<List<BookDto>>(stringResponse);
+            
             // Assert
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
             Assert.Contains(books, b => b.Title == "C# in Depth");
-            //Assert query by id
         }
     }
 }

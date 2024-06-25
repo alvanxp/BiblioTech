@@ -3,6 +3,11 @@ services:
     build: BiblioTech
     ports:
       - 5657:80
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_URLS=http://*:80
   db:
     environment:
       ACCEPT_EULA: "Y"
@@ -20,5 +25,3 @@ services:
         retries: 10
         start_period: 10s
         timeout: 3s     
-         
-       
