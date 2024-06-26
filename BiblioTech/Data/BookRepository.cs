@@ -8,7 +8,7 @@ public class BookRepository(IOptions<ConnectionString> connectionString) : IBook
 {
     public async Task<List<Book>> GetBooks()
     {
-        using var connection = new SqlConnection(connectionString.Value.DefaultConnection);
+        await using var connection = new SqlConnection(connectionString.Value.DefaultConnection);
         await connection.OpenAsync();
         var command = connection.CreateCommand();
         command.CommandText = "SELECT [Id],[Title],[Author],[ISBN],[PublishDate],[Price] FROM Book";
@@ -32,8 +32,8 @@ public class BookRepository(IOptions<ConnectionString> connectionString) : IBook
 
     public async Task<bool> AddBook(Book book)
     {
-        using var connection = new SqlConnection(connectionString.Value.DefaultConnection);
-        await connection.OpenAsync();
+        await using var connection = new SqlConnection(connectionString.Value.DefaultConnection);
+    await connection.OpenAsync();
         var command = connection.CreateCommand();
         command.CommandText = "INSERT INTO Book ([Title],[Author],[Genre],[Description],[PublishDate],[Price],[ISBN]) VALUES (@Title,@Author,@Genre,@Description,@PublishDate,@Price,@ISBN)";
         command.Parameters.AddWithValue("@Title", book.Title);
