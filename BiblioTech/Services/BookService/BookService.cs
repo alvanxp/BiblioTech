@@ -1,7 +1,8 @@
 ﻿using BiblioTech.Data;
 using BiblioTech.Domain.Dto;
+using BiblioTech.Domain.Entities;
 
-namespace BiblioTech.Services;
+namespace BiblioTech.Services.BookService;
 
 public class BookService(IBookRepository bookRepository) : IBookService
 {
@@ -13,10 +14,6 @@ public class BookService(IBookRepository bookRepository) : IBookService
 
     public async Task<bool?> AddBook(BookDto book)
     {
-        if (book == null)
-        {
-            return false;
-        }
         var newBook = new Book
         {
             Title = book.Title,

@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BiblioTech.Data;
+﻿using BiblioTech.Data;
 using BiblioTech.Domain.Dto;
 using BiblioTech.Domain.Entities;
+using BiblioTech.Services;
+using BiblioTech.Services.UserService;
 using Microsoft.Extensions.Options;
 using Moq;
-using Xunit;
 
-namespace BiblioTech.Services.Tests
+namespace BiblioTech.Test.UnitTest
 {
     public class UserServiceTests
     {

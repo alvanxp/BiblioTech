@@ -1,4 +1,4 @@
-﻿using BiblioTech.Domain.Dto;
+﻿using BiblioTech.Domain.Entities;
 
 namespace BiblioTech.Data;
 

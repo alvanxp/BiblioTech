@@ -1,4 +1,4 @@
-﻿using BiblioTech.Domain.Dto;
+﻿using BiblioTech.Domain.Entities;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 

@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using AuthenticateResponse = BiblioTech.Domain.Dto.AuthenticateResponse;
 
-namespace BiblioTech.Services;
+namespace BiblioTech.Services.UserService;
 
 public class UserService(IOptions<JwtSettings> appSettings, IUserRepository userRepository)
     : IUserService

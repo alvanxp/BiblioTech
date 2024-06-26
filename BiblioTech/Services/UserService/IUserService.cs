@@ -1,6 +1,6 @@
 ﻿using BiblioTech.Domain.Dto;
 
-namespace BiblioTech.Services;
+namespace BiblioTech.Services.UserService;
 
 public interface IUserService
 {

@@ -1,6 +1,8 @@
 ﻿using BiblioTech.Data;
 using BiblioTech.Domain.Dto;
+using BiblioTech.Domain.Entities;
 using BiblioTech.Services;
+using BiblioTech.Services.BookService;
 using Moq;
 
 namespace BiblioTech.Test.UnitTest;

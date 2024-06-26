@@ -1,4 +1,4 @@
-﻿namespace BiblioTech.Data;
+﻿namespace BiblioTech.Domain.Entities;
 
 public class Book
 {

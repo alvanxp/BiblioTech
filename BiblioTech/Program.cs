@@ -1,6 +1,8 @@
 using System.Text;
 using BiblioTech.Data;
 using BiblioTech.Services;
+using BiblioTech.Services.BookService;
+using BiblioTech.Services.UserService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;

@@ -1,5 +1,5 @@
 ﻿using BiblioTech.Domain.Dto;
-using BiblioTech.Services;
+using BiblioTech.Services.BookService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -13,9 +13,9 @@ public class BooksController(IBookService bookService) : ControllerBase
 {
     // GET
     [HttpGet]
-    [SwaggerOperation("GetBooks")]
+   [SwaggerOperation("GetBooks")]
     public async Task<IActionResult> Get()
-    {
+{
         var books = await bookService.GetBooks();
         return Ok(books);
     }
@@ -27,7 +27,6 @@ public class BooksController(IBookService bookService) : ControllerBase
         var book = await bookService.GetBookById(id);
         return Ok(book);
     }
-    
     
     // POST
     [HttpPost]
