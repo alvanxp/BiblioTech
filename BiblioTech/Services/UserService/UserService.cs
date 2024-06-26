@@ -14,7 +14,6 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
     : IUserService
 {
     private readonly JwtSettings _jwtSettings = appSettings.Value;
-
     public async Task<ResultDto<AuthenticateResponse?>> Authenticate(AuthenticateRequest model)
     {
         var user = await userRepository.GetUserByUsername(model.Username);
@@ -28,8 +27,6 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
             };
         }
         var hashedPassword = HashPassword(model.Password, user.Salt);
-
-        // return null if password is incorrect
         if (hashedPassword != user.HashedPassword)
         {
             return new ResultDto<AuthenticateResponse?>()
@@ -38,10 +35,8 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
                 Message ="Invalid Credentials" 
             };
         }
-
-        // authentication successful so generate jwt token
+        
         var token = GenerateJwtToken(user.Username);
-
         return new ResultDto<AuthenticateResponse?>()
         {
             Success = true,
@@ -99,7 +94,6 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
             }
         };
     }
-
     private string HashPassword(string password, string salt)
     {
         using var sha256 = System.Security.Cryptography.SHA256.Create();
@@ -115,9 +109,10 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
         var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[] { new Claim("id", username) }),
+            Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, username) }),
             Expires = DateTime.UtcNow.AddDays(7),
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+            SigningCredentials =
+                new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             Issuer = _jwtSettings.Issuer,
             Audience = _jwtSettings.Audience
         };
