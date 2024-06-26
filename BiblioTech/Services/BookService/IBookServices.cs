@@ -5,6 +5,6 @@ namespace BiblioTech.Services.BookService;
 public interface IBookService
 {
    Task<List<BookDto>> GetBooks();
-   Task<bool?> AddBook(BookDto book);
+   Task<ResultDto<bool>> AddBook(BookDto book);
    Task<BookDto?> GetBookById(int id);
 }

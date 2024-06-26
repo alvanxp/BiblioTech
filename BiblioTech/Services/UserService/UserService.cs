@@ -24,7 +24,7 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
             return new ResultDto<AuthenticateResponse?>()
             {
                 Success = false,
-                Message = "Username or password is incorrect."
+                Message = "Invalid Credentials"
             };
         }
         var hashedPassword = HashPassword(model.Password, user.Salt);
@@ -35,19 +35,18 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
             return new ResultDto<AuthenticateResponse?>()
             {
                 Success = false,
-                Message = "Username or password is incorrect."
+                Message ="Invalid Credentials" 
             };
         }
 
         // authentication successful so generate jwt token
-        var token = GenerateJwtToken(user.Id.ToString());
+        var token = GenerateJwtToken(user.Username);
 
         return new ResultDto<AuthenticateResponse?>()
         {
             Success = true,
             Data = new AuthenticateResponse()
             {
-                Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Username = user.Username,
@@ -93,7 +92,6 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
             Message = "User registered successfully.",
             Data = new AuthenticateResponse()
             {
-                Id = updatedUser.Id,
                 FirstName = updatedUser.FirstName,
                 LastName = updatedUser.LastName,
                 Username = updatedUser.Username,
@@ -111,13 +109,13 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
         return Convert.ToBase64String(hash);
     } // helper methods
 
-    private string GenerateJwtToken(string id)
+    private string GenerateJwtToken(string username)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[] { new Claim("id", id) }),
+            Subject = new ClaimsIdentity(new[] { new Claim("id", username) }),
             Expires = DateTime.UtcNow.AddDays(7),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             Issuer = _jwtSettings.Issuer,

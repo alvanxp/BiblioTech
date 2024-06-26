@@ -64,7 +64,7 @@ public class BookTest
         var result = await _bookService.AddBook(book);
 
         // Assert
-        Assert.Equal(success, result);
+        Assert.Equal(success, result.Success);
     }
     //test add book method with null book
     [Fact]
@@ -79,7 +79,7 @@ public class BookTest
         var result = await _bookService.AddBook(book);
 
         // Assert
-        Assert.False(result);
+        Assert.False(result.Success);
     }
      
     //test add get book by id method

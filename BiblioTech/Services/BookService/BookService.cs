@@ -12,8 +12,16 @@ public class BookService(IBookRepository bookRepository) : IBookService
         return books.Select(book => new BookDto(book.Id,book.Title, book.Author, book.Genre, book.Description, book.PublishDate, book.Price, book.ISBN)).ToList();
     }
 
-    public async Task<bool?> AddBook(BookDto book)
+    public async Task<ResultDto<bool>> AddBook(BookDto? book)
     {
+        if (book == null)
+        {
+            return new ResultDto<bool>()
+            {
+                Success = false,
+                Message = "Book is null."
+            };
+        }
         var newBook = new Book
         {
             Title = book.Title,
@@ -24,7 +32,12 @@ public class BookService(IBookRepository bookRepository) : IBookService
             Price = book.Price,
             ISBN = book.ISBN
         };
-        return await bookRepository.AddBook(newBook);      
+        var result =  await bookRepository.AddBook(newBook);
+        return new ResultDto<bool>()
+        {
+            Success = result,
+            Message =  "Book added successfully." 
+        };
     }
 
     public async Task<BookDto?> GetBookById(int i)

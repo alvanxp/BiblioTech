@@ -12,14 +12,12 @@ namespace BiblioTech.Test.UnitTest
     {
         private readonly Mock<IUserRepository> _userRepositoryMock;
         private readonly UserService _userService;
-
         public UserServiceTests()
         {
             var appSettings = Options.Create(new JwtSettings { Secret = "test-secret" });
             _userRepositoryMock = new Mock<IUserRepository>();
             _userService = new UserService(appSettings, _userRepositoryMock.Object);
         }
-
 
         [Fact]
         public async Task Authenticate_InvalidCredentials_ReturnsNull()
