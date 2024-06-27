@@ -1,6 +1,7 @@
 ﻿using BiblioTech.Data;
 using BiblioTech.Domain.Dto;
 using BiblioTech.Domain.Entities;
+using BiblioTech.Services.Authentication;
 using Microsoft.Extensions.Options;
 using AuthenticateResponse = BiblioTech.Domain.Dto.AuthenticateResponse;
 

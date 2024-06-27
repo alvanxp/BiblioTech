@@ -2,6 +2,7 @@
 using BiblioTech.Domain.Dto;
 using BiblioTech.Domain.Entities;
 using BiblioTech.Services;
+using BiblioTech.Services.Authentication;
 using BiblioTech.Services.UserService;
 using Microsoft.Extensions.Options;
 using Moq;

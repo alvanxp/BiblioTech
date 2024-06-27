@@ -5,16 +5,11 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace BiblioTech.Services.UserService;
+namespace BiblioTech.Services.Authentication;
 
-public class AuthenticationService
+public class AuthenticationService(IOptions<JwtSettings> appSettings)
 {
-    private readonly JwtSettings _jwtSettings;
-
-    public AuthenticationService(IOptions<JwtSettings> appSettings)
-    {
-        _jwtSettings = appSettings.Value;
-    }
+    private readonly JwtSettings _jwtSettings = appSettings.Value;
 
     public string HashPassword(string password, string salt)
     {
@@ -41,6 +36,7 @@ public class AuthenticationService
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
     }
+    
     public bool VerifyPassword(string password, string hashedPassword, string salt)
     {
         return hashedPassword == HashPassword(password, salt);
