@@ -63,6 +63,20 @@ namespace BiblioTech.Test.IntegrationTest
         }
 
         [Fact]
+        public async Task GetBooks_ReturnsUnAuthorized()
+        {
+            // Arrange
+            var url = "api/Books";
+
+            // Act
+            Client.DefaultRequestHeaders.Authorization = null;
+            var response = await Client.GetAsync(url);
+            
+            // Assert
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+        
+        [Fact]
         public async Task AddBook_ReturnsSuccessStatusCode()
         {
             // Arrange
