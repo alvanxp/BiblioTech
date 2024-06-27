@@ -70,8 +70,8 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
         };
 
         user.HashedPassword = HashPassword(registerRequest.Password, user.Salt);
-        var updatedUser = await userRepository.Insert(user);
-        if (updatedUser == null)
+        var newUser = await userRepository.Insert(user);
+        if (newUser == null)
         {
             return new ResultDto<AuthenticateResponse>
             {
@@ -80,16 +80,16 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
             };
         }
 
-        var token = GenerateJwtToken(updatedUser.Id.ToString());
+        var token = GenerateJwtToken(newUser.Username);
         return new ResultDto<AuthenticateResponse>
         {
             Success = true,
             Message = "User registered successfully.",
             Data = new AuthenticateResponse()
             {
-                FirstName = updatedUser.FirstName,
-                LastName = updatedUser.LastName,
-                Username = updatedUser.Username,
+                FirstName = newUser.FirstName,
+                LastName = newUser.LastName,
+                Username = newUser.Username,
                 Token = token
             }
         };
