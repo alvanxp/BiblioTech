@@ -13,13 +13,13 @@ namespace BiblioTech.Services.UserService;
 public class UserService(IOptions<JwtSettings> appSettings, IUserRepository userRepository)
     : IUserService
 {
-    //TODO: implement RefreshToken, LockAccount, ResetPassword, ChangePassword, UpdateProfile
     private readonly JwtSettings _jwtSettings = appSettings.Value;
+
     public async Task<ResultDto<AuthenticateResponse?>> Authenticate(AuthenticateRequest model)
     {
         var user = await userRepository.GetUserByUsername(model.Username);
 
-        if (user == null)
+        if (user == null || !VerifyPassword(model.Password, user.HashedPassword, user.Salt))
         {
             return new ResultDto<AuthenticateResponse?>()
             {
@@ -27,16 +27,7 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
                 Message = "Invalid Credentials"
             };
         }
-        var hashedPassword = HashPassword(model.Password, user.Salt);
-        if (hashedPassword != user.HashedPassword)
-        {
-            return new ResultDto<AuthenticateResponse?>()
-            {
-                Success = false,
-                Message ="Invalid Credentials" 
-            };
-        }
-        
+
         var token = GenerateJwtToken(user.Username);
         return new ResultDto<AuthenticateResponse?>()
         {
@@ -62,15 +53,17 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
                 Message = "Username is already taken."
             };
         }
+
+        var salt = Guid.NewGuid().ToString();
         var user = new User
         {
             FirstName = registerRequest.FirstName,
             LastName = registerRequest.LastName,
             Username = registerRequest.Username,
-            Salt = Guid.NewGuid().ToString()
+            Salt = salt,
+            HashedPassword = HashPassword(registerRequest.Password, salt)
         };
 
-        user.HashedPassword = HashPassword(registerRequest.Password, user.Salt);
         var newUser = await userRepository.Insert(user);
         if (newUser == null)
         {
@@ -95,6 +88,12 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
             }
         };
     }
+
+    private bool VerifyPassword(string password, string hashedPassword, string salt)
+    {
+        return hashedPassword == HashPassword(password, salt);
+    }
+
     private string HashPassword(string password, string salt)
     {
         using var sha256 = System.Security.Cryptography.SHA256.Create();
@@ -102,7 +101,7 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
         var bytes = System.Text.Encoding.UTF8.GetBytes(saltedPassword);
         var hash = sha256.ComputeHash(bytes);
         return Convert.ToBase64String(hash);
-    } 
+    }
 
     private string GenerateJwtToken(string username)
     {
