@@ -13,6 +13,7 @@ namespace BiblioTech.Services.UserService;
 public class UserService(IOptions<JwtSettings> appSettings, IUserRepository userRepository)
     : IUserService
 {
+    //TODO: implement RefreshToken, LockAccount, ResetPassword, ChangePassword, UpdateProfile
     private readonly JwtSettings _jwtSettings = appSettings.Value;
     public async Task<ResultDto<AuthenticateResponse?>> Authenticate(AuthenticateRequest model)
     {
