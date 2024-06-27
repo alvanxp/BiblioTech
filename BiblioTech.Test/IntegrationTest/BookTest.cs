@@ -1,7 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Text;
-using BiblioTech;
 using BiblioTech.Domain.Dto;
 using Newtonsoft.Json;
 

@@ -26,7 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BiblioTech\BiblioTech.csproj" />
+    <ProjectReference Include="..\BiblioTech.Api\BiblioTech.Api.csproj" />
+    <ProjectReference Include="..\BiblioTech.Domain\BiblioTech.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -8,7 +8,7 @@ public static class SwaggerServiceConfiguration
     {
         services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new() { Title = "BiblioTech API", Version = "v1" });
+            c.SwaggerDoc("v1", new() { Title = "BiblioTech.Api API", Version = "v1" });
  
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {

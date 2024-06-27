@@ -1,7 +1,13 @@
-/BiblioTech/bin/
-/BiblioTech/obj/
+/BiblioTech.Api/bin/
+/BiblioTech.Api/obj/
 /BiblioTech.Test/obj/
 /BiblioTech.Test/bin/
 /Database/.idea/
+/BiblioTech.Data/bin/
+/BiblioTech.Data/obj/
+/BiblioTech.Domain/obj/
+/BiblioTech.Domain/bin/
+/BiblioTech.Services/obj/
+/BiblioTech.Services/bin/
 /.idea/
 /.vs/

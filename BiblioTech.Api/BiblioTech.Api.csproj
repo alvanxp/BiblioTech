@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>BiblioTech</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +14,12 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BiblioTech.Data\BiblioTech.Data.csproj" />
+    <ProjectReference Include="..\BiblioTech.Domain\BiblioTech.Domain.csproj" />
+    <ProjectReference Include="..\BiblioTech.Services\BiblioTech.Services.csproj" />
   </ItemGroup>
 
 </Project>

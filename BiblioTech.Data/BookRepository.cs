@@ -55,7 +55,7 @@ public class BookRepository(IOptions<ConnectionString> connectionString) : IBook
 
     public Task<Book> GetBookById(int id)
     {
-        return null;
+        throw new NotImplementedException();
     }
     
 }

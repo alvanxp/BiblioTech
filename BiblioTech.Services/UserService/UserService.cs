@@ -101,7 +101,7 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
         var bytes = System.Text.Encoding.UTF8.GetBytes(saltedPassword);
         var hash = sha256.ComputeHash(bytes);
         return Convert.ToBase64String(hash);
-    } // helper methods
+    } 
 
     private string GenerateJwtToken(string username)
     {
