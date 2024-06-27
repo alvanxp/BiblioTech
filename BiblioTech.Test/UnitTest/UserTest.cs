@@ -12,11 +12,13 @@ namespace BiblioTech.Test.UnitTest
     {
         private readonly Mock<IUserRepository> _userRepositoryMock;
         private readonly UserService _userService;
+        private readonly Mock<AuthenticationService> _authenticationServiceMock;
         public UserServiceTests()
         {
             var appSettings = Options.Create(new JwtSettings { Secret = "test-secret" });
             _userRepositoryMock = new Mock<IUserRepository>();
-            _userService = new UserService(appSettings, _userRepositoryMock.Object);
+            _authenticationServiceMock = new Mock<AuthenticationService>(appSettings);
+            _userService = new UserService(appSettings, _userRepositoryMock.Object, _authenticationServiceMock.Object); 
         }
 
         [Fact]

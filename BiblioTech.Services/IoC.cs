@@ -8,6 +8,7 @@ public static class IoC
 {
     public static void AddServices(this IServiceCollection services)
     {
+        services.AddSingleton<AuthenticationService>();
         services.AddScoped<IUserService, UserService.UserService>();
         services.AddScoped<IBookService, BookService.BookService>();
     }

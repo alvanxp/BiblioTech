@@ -1,25 +1,19 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using BiblioTech.Data;
+﻿using BiblioTech.Data;
 using BiblioTech.Domain.Dto;
 using BiblioTech.Domain.Entities;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using AuthenticateResponse = BiblioTech.Domain.Dto.AuthenticateResponse;
 
 namespace BiblioTech.Services.UserService;
 
-public class UserService(IOptions<JwtSettings> appSettings, IUserRepository userRepository)
+public class UserService(IOptions<JwtSettings> appSettings, IUserRepository userRepository, AuthenticationService authenticationService)
     : IUserService
 {
-    private readonly JwtSettings _jwtSettings = appSettings.Value;
-
     public async Task<ResultDto<AuthenticateResponse?>> Authenticate(AuthenticateRequest model)
     {
         var user = await userRepository.GetUserByUsername(model.Username);
 
-        if (user == null || !VerifyPassword(model.Password, user.HashedPassword, user.Salt))
+        if (user == null || !authenticationService.VerifyPassword(model.Password, user.HashedPassword, user.Salt))
         {
             return new ResultDto<AuthenticateResponse?>()
             {
@@ -28,7 +22,7 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
             };
         }
 
-        var token = GenerateJwtToken(user.Username);
+        var token = authenticationService.GenerateJwtToken(user.Username);
         return new ResultDto<AuthenticateResponse?>()
         {
             Success = true,
@@ -61,7 +55,7 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
             LastName = registerRequest.LastName,
             Username = registerRequest.Username,
             Salt = salt,
-            HashedPassword = HashPassword(registerRequest.Password, salt)
+            HashedPassword = authenticationService.HashPassword(registerRequest.Password, salt)
         };
 
         var newUser = await userRepository.Insert(user);
@@ -74,7 +68,7 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
             };
         }
 
-        var token = GenerateJwtToken(newUser.Username);
+        var token = authenticationService.GenerateJwtToken(newUser.Username);
         return new ResultDto<AuthenticateResponse>
         {
             Success = true,
@@ -89,34 +83,5 @@ public class UserService(IOptions<JwtSettings> appSettings, IUserRepository user
         };
     }
 
-    private bool VerifyPassword(string password, string hashedPassword, string salt)
-    {
-        return hashedPassword == HashPassword(password, salt);
-    }
 
-    private string HashPassword(string password, string salt)
-    {
-        using var sha256 = System.Security.Cryptography.SHA256.Create();
-        var saltedPassword = salt + password;
-        var bytes = System.Text.Encoding.UTF8.GetBytes(saltedPassword);
-        var hash = sha256.ComputeHash(bytes);
-        return Convert.ToBase64String(hash);
-    }
-
-    private string GenerateJwtToken(string username)
-    {
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
-        var tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, username) }),
-            Expires = DateTime.UtcNow.AddDays(7),
-            SigningCredentials =
-                new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-            Issuer = _jwtSettings.Issuer,
-            Audience = _jwtSettings.Audience
-        };
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-        return tokenHandler.WriteToken(token);
-    }
 }
