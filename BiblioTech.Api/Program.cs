@@ -20,6 +20,7 @@ public class Program
         builder.Services.Configure<ConnectionString>(builder.Configuration.GetSection("ConnectionStrings"));
         builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
         builder.Services.AddServices();
+        builder.Services.AddRepositories();
         builder.AddJwtAuthentication();
         var app = builder.Build();
 
