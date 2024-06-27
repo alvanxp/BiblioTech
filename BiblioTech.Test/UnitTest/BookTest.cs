@@ -56,7 +56,7 @@ public class BookTest
     {
         // Arrange
         bool success = false;
-        var book = new BookDto(null, "The Hobbit", "J.R.R. Tolkien", "Fantasy novel",
+        var book = new BookRequest(null, "The Hobbit", "J.R.R. Tolkien", "Fantasy novel",
             "The Hobbit is a tale of high adventure, undertaken by a company of dwarves in search of dragon-guarded gold.", DateTime.Now, (decimal)10.99, "978-0-395-08302-2");
         _bookRepositoryMock.Setup(x => x.AddBook(It.IsAny<Book>())).ReturnsAsync(success);
         
@@ -64,7 +64,7 @@ public class BookTest
         var result = await _bookService.AddBook(book);
 
         // Assert
-        Assert.Equal(success, result.Success);
+        Assert.NotNull(result);
     }
     //test add book method with null book
     [Fact]
@@ -72,14 +72,16 @@ public class BookTest
     {
         // Arrange
         bool success = false;
-        BookDto book = null;
+        BookRequest book = null;
         _bookRepositoryMock.Setup(x => x.AddBook(It.IsAny<Book>())).ReturnsAsync(success);
         
         // Act
-        var result = await _bookService.AddBook(book);
 
         // Assert
-        Assert.False(result.Success);
+        await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+        {
+            await _bookService.AddBook(book);
+        });
     }
      
     //test add get book by id method

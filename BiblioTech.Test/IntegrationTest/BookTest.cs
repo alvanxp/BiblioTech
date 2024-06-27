@@ -56,7 +56,7 @@ namespace BiblioTech.Test.IntegrationTest
             var response = await Client.GetAsync(url);
             response.EnsureSuccessStatusCode();
             var stringResponse = await response.Content.ReadAsStringAsync();
-            var books = JsonConvert.DeserializeObject<List<BookDto>>(stringResponse);
+            var books = JsonConvert.DeserializeObject<List<BookResponse>>(stringResponse);
 
             // Assert
             Assert.Contains(books, b => b.Title == "The Hobbit");
@@ -67,7 +67,7 @@ namespace BiblioTech.Test.IntegrationTest
         {
             // Arrange
             var url = "api/Books";
-            var book = new BookDto(null, "C# in Depth", "Jon Skeet", "Technical",
+            var book = new BookResponse(null, "C# in Depth", "Jon Skeet", "Technical",
                 "C# in Depth is a book that dives into the C# language and its nuances. It provides a deep understanding of C# programming, covering C# 6.0 and 7.0 versions with a preview of C# 8.0.",
                 DateTime.Now, (decimal)39.99, "978-1617294532");
             var content = new StringContent(JsonConvert.SerializeObject(book), Encoding.UTF8, "application/json");
@@ -77,7 +77,7 @@ namespace BiblioTech.Test.IntegrationTest
             var queryResponse = await Client.GetAsync(url);
             response.EnsureSuccessStatusCode();
             var stringResponse = await queryResponse.Content.ReadAsStringAsync();
-            var books = JsonConvert.DeserializeObject<List<BookDto>>(stringResponse);
+            var books = JsonConvert.DeserializeObject<List<BookResponse>>(stringResponse);
             
             // Assert
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);

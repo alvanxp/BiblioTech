@@ -31,9 +31,9 @@ public class BooksController(IBookService bookService) : ControllerBase
     // POST
     [HttpPost]
     [SwaggerOperation("AddBook")]
-    public async Task<IActionResult> Post([FromBody] BookDto book)
+    public async Task<IActionResult> Post([FromBody] BookRequest book)
     {
         var result = await bookService.AddBook(book);
-        return Created("", book);
+        return CreatedAtRoute(new { id = result.Id }, result);
     }
 }

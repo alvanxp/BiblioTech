@@ -1,9 +1,7 @@
 using BiblioTech.Data;
 using BiblioTech.DependencyResolution;
+using BiblioTech.Middlewares;
 using BiblioTech.Services;
-using BiblioTech.Services.BookService;
-using BiblioTech.Services.UserService;
-using Microsoft.OpenApi.Models;
 
 namespace BiblioTech;
 public class Program
@@ -30,12 +28,10 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
+        app.UseMiddleware<UnauthorizedMiddleware>();
+        app.UseMiddleware<ExceptionMiddleware>();
         app.UseHttpsRedirection();
         app.MapControllers();
-        app.UseAuthorization();
         app.Run();
     }
-
-
 }

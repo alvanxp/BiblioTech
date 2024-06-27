@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace BiblioTech.DependencyResolution;
 
-public static class JwtAuthenticationHelper
+public static class JwtAuthentication
 {
     public static void AddJwtAuthentication(this WebApplicationBuilder builder)
     {

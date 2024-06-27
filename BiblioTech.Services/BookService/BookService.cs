@@ -6,22 +6,16 @@ namespace BiblioTech.Services.BookService;
 
 public class BookService(IBookRepository bookRepository) : IBookService
 {
-    public async Task<List<BookDto>> GetBooks()
+    public async Task<List<BookResponse>> GetBooks()
     {
+        //TODO: use a mapper, instead of manual mapping
         var books = await bookRepository.GetBooks();
-        return books.Select(book => new BookDto(book.Id,book.Title, book.Author, book.Genre, book.Description, book.PublishDate, book.Price, book.ISBN)).ToList();
+        return books.Select(book => new BookResponse(book.Id,book.Title, book.Author, book.Genre, book.Description, book.PublishDate, book.Price, book.ISBN)).ToList();
     }
 
-    public async Task<ResultDto<bool>> AddBook(BookDto? book)
+    public async Task<BookResponse> AddBook(BookRequest? book)
     {
-        if (book == null)
-        {
-            return new ResultDto<bool>()
-            {
-                Success = false,
-                Message = "Book is null."
-            };
-        }
+        ArgumentNullException.ThrowIfNull(book);
         var newBook = new Book
         {
             Title = book.Title,
@@ -32,17 +26,13 @@ public class BookService(IBookRepository bookRepository) : IBookService
             Price = book.Price,
             ISBN = book.ISBN
         };
-        var result =  await bookRepository.AddBook(newBook);
-        return new ResultDto<bool>()
-        {
-            Success = result,
-            Message =  "Book added successfully." 
-        };
+        await bookRepository.AddBook(newBook);
+        return new BookResponse(newBook.Id,newBook.Title, newBook.Author, newBook.Genre, newBook.Description, newBook.PublishDate, newBook.Price, newBook.ISBN);
     }
 
-    public async Task<BookDto?> GetBookById(int i)
+    public async Task<BookResponse?> GetBookById(int id)
     {
-        var book = await bookRepository.GetBookById(i);
-        return new BookDto(book.Id,book.Title, book.Author, book.Genre, book.Description, book.PublishDate, book.Price, book.ISBN);
+        var book = await bookRepository.GetBookById(id);
+        return new BookResponse(book.Id,book.Title, book.Author, book.Genre, book.Description, book.PublishDate, book.Price, book.ISBN);
     }
 }
