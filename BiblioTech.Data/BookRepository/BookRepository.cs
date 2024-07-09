@@ -33,7 +33,7 @@ public class BookRepository(IOptions<ConnectionString> connectionString) : IBook
     public async Task<bool> AddBook(Book book)
     {
         await using var connection = new SqlConnection(connectionString.Value.DefaultConnection);
-    await connection.OpenAsync();
+        await connection.OpenAsync();
         var command = connection.CreateCommand();
         command.CommandText = "INSERT INTO Book ([Title],[Author],[Genre],[Description],[PublishDate],[Price],[ISBN]) VALUES (@Title,@Author,@Genre,@Description,@PublishDate,@Price,@ISBN)";
         command.Parameters.AddWithValue("@Title", book.Title);

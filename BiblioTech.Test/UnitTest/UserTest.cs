@@ -19,7 +19,7 @@ namespace BiblioTech.Test.UnitTest
             var appSettings = Options.Create(new JwtSettings { Secret = "test-secret" });
             _userRepositoryMock = new Mock<IUserRepository>();
             _authenticationServiceMock = new Mock<AuthenticationService>(appSettings);
-            _userService = new UserService(appSettings, _userRepositoryMock.Object, _authenticationServiceMock.Object); 
+            _userService = new UserService(_userRepositoryMock.Object, _authenticationServiceMock.Object); 
         }
 
         [Fact]

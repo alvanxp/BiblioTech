@@ -7,7 +7,7 @@ using AuthenticateResponse = BiblioTech.Domain.Dto.AuthenticateResponse;
 
 namespace BiblioTech.Services.UserService;
 
-public class UserService(IOptions<JwtSettings> appSettings, IUserRepository userRepository, AuthenticationService authenticationService)
+public class UserService(IUserRepository userRepository, AuthenticationService authenticationService)
     : IUserService
 {
     public async Task<ResultDto<AuthenticateResponse?>> Authenticate(AuthenticateRequest model)
