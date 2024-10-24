@@ -36,9 +36,10 @@ public class BookTest
             }
         };
         _bookRepositoryMock.Setup(x => x.GetBooks()).ReturnsAsync(books);
-        
+
         // Act
-        var result = await _bookService.GetBooks();
+        var response = await _bookService.GetBooks();
+        List<BookResponse> result = response.Data;
 
         // Assert
         Assert.Equal(books.Count, result.Count);
@@ -59,7 +60,7 @@ public class BookTest
         var book = new BookRequest(null, "The Hobbit", "J.R.R. Tolkien", "Fantasy novel",
             "The Hobbit is a tale of high adventure, undertaken by a company of dwarves in search of dragon-guarded gold.", DateTime.Now, (decimal)10.99, "978-0-395-08302-2");
         _bookRepositoryMock.Setup(x => x.AddBook(It.IsAny<Book>())).ReturnsAsync(success);
-        
+
         // Act
         var result = await _bookService.AddBook(book);
 
@@ -72,9 +73,9 @@ public class BookTest
     {
         // Arrange
         bool success = false;
-        BookRequest book = null;
+        BookRequest? book = null;
         _bookRepositoryMock.Setup(x => x.AddBook(It.IsAny<Book>())).ReturnsAsync(success);
-        
+
         // Act
 
         // Assert
@@ -83,7 +84,7 @@ public class BookTest
             await _bookService.AddBook(book);
         });
     }
-     
+
     //test add get book by id method
     [Fact]
     public async Task GetBookById_ReturnsBook()
@@ -97,9 +98,10 @@ public class BookTest
             Description = "The Hobbit is a tale of high adventure, undertaken by a company of dwarves in search of dragon-guarded gold."
         };
         _bookRepositoryMock.Setup(x => x.GetBookById(It.IsAny<int>())).ReturnsAsync(book);
-        
+
         // Act
-        var result = await _bookService.GetBookById(1);
+        var response = await _bookService.GetBookById(1);
+        var result = response.Data;
 
         // Assert
         Assert.Equal(book.Title, result.Title);

@@ -17,7 +17,11 @@ public class BooksController(IBookService bookService) : ControllerBase
     public async Task<IActionResult> Get()
 {
         var books = await bookService.GetBooks();
-        return Ok(books);
+        if (!books.Success)
+        {
+            return NotFound(books.Message);
+        }
+        return Ok(books.Data);
     }
     // GET
     [HttpGet("{id}")]
@@ -25,7 +29,11 @@ public class BooksController(IBookService bookService) : ControllerBase
     public async Task<IActionResult> Get(int id)
     {
         var book = await bookService.GetBookById(id);
-        return Ok(book);
+        if (!book.Success)
+        {
+            return NotFound(book.Message);
+        }
+        return Ok(book.Data);
     }
     
     // POST
@@ -34,6 +42,11 @@ public class BooksController(IBookService bookService) : ControllerBase
     public async Task<IActionResult> Post([FromBody] BookRequest book)
     {
         var result = await bookService.AddBook(book);
-        return CreatedAtRoute(new { id = result.Id }, result);
+        if (!result.Success)
+        {
+            return BadRequest(result);
+        }
+
+        return CreatedAtRoute(new { id = result.Data.Id }, result.Data);
     }
 }

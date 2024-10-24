@@ -1,4 +1,5 @@
-﻿using BiblioTech.Data;
+﻿using System.Security.Cryptography;
+using BiblioTech.Data;
 using BiblioTech.Domain.Dto;
 using BiblioTech.Domain.Entities;
 using BiblioTech.Services.Authentication;
@@ -49,7 +50,7 @@ public class UserService(IUserRepository userRepository, AuthenticationService a
             };
         }
 
-        var salt = Guid.NewGuid().ToString();
+        var salt = Convert.ToBase64String(RandomNumberGenerator.GetBytes(16));
         var user = new User
         {
             FirstName = registerRequest.FirstName,

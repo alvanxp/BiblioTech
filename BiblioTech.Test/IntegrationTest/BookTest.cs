@@ -91,7 +91,7 @@ namespace BiblioTech.Test.IntegrationTest
             var queryResponse = await Client.GetAsync(url);
             response.EnsureSuccessStatusCode();
             var stringResponse = await queryResponse.Content.ReadAsStringAsync();
-            var books = JsonConvert.DeserializeObject<List<BookResponse>>(stringResponse);
+            var books = JsonConvert.DeserializeObject<List<BookResponse>?>(stringResponse);
             
             // Assert
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);

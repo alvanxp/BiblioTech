@@ -4,7 +4,7 @@ namespace BiblioTech.Services.BookService;
 
 public interface IBookService
 {
-   Task<List<BookResponse>> GetBooks();
-   Task<BookResponse> AddBook(BookRequest? book);
-   Task<BookResponse?> GetBookById(int id);
+   Task<ResultDto<List<BookResponse>>> GetBooks();
+   Task<ResultDto<BookResponse>> AddBook(BookRequest? book);
+   Task<ResultDto<BookResponse>> GetBookById(int id);
 }

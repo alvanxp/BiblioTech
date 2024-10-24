@@ -30,7 +30,7 @@ public class BookRepository(IOptions<ConnectionString> connectionString) : IBook
         return books;
     }
 
-    public async Task<bool> AddBook(Book book)
+    public async Task<bool?> AddBook(Book book)
     {
         await using var connection = new SqlConnection(connectionString.Value.DefaultConnection);
         await connection.OpenAsync();
@@ -43,8 +43,8 @@ public class BookRepository(IOptions<ConnectionString> connectionString) : IBook
         command.Parameters.AddWithValue("@PublishDate", book.PublishDate);
         command.Parameters.AddWithValue("@Price", book.Price);
         command.Parameters.AddWithValue("@ISBN", book.ISBN);
-        var result = await command.ExecuteScalarAsync();
-        if (result != null)
+        var result = await command.ExecuteNonQueryAsync();
+        if (result > 0) 
         {
             book.Id = Convert.ToInt32(result);    
             return true;
