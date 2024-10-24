@@ -16,7 +16,7 @@ namespace BiblioTech.Test.UnitTest
         private readonly Mock<AuthenticationService> _authenticationServiceMock;
         public UserServiceTests()
         {
-            var appSettings = Options.Create(new JwtSettings { Secret = "test-secret" });
+            var appSettings = Options.Create(new JwtSettings { Secret = "test-secret", Audience = "test-audience", Issuer = "test-issuer" });
             _userRepositoryMock = new Mock<IUserRepository>();
             _authenticationServiceMock = new Mock<AuthenticationService>(appSettings);
             _userService = new UserService(_userRepositoryMock.Object, _authenticationServiceMock.Object); 
@@ -31,7 +31,8 @@ namespace BiblioTech.Test.UnitTest
                 Username = "testuser",
                 Password = "testpassword"
             };
-            _userRepositoryMock.Setup(x => x.GetUserByUsername(model.Username)).ReturnsAsync((User)null);
+            _userRepositoryMock.Setup(x => x.GetUserByUsername(model.Username))
+                .ReturnsAsync(default(User));
 
             // Act
             var result = await _userService.Authenticate(model);
@@ -52,7 +53,7 @@ namespace BiblioTech.Test.UnitTest
                 Username = "johndoe",
                 Password = "testpassword"
             };
-            _userRepositoryMock.Setup(x => x.Insert(It.IsAny<User>())).ReturnsAsync((User)null);
+            _userRepositoryMock.Setup(x => x.Insert(It.IsAny<User>())).ReturnsAsync(default(User));
 
             // Act
             var result = await _userService.Register(registerRequest);

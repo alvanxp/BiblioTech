@@ -8,7 +8,7 @@ public class ExceptionMiddleware(RequestDelegate next)
         {
             await next(context);
         }
-        catch (Exception ex)
+        catch //(Exception ex)
         {
             context.Response.StatusCode = 500;
             await context.Response.WriteAsJsonAsync(new
@@ -19,4 +19,4 @@ public class ExceptionMiddleware(RequestDelegate next)
             // Log the exception
         }
     }
-}
+} 

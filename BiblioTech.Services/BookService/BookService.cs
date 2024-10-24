@@ -21,7 +21,10 @@ public class BookService(IBookRepository bookRepository) : IBookService
         }
         return new ResultDto<List<BookResponse>>()
         {
-            Data = books.Select(book => new BookResponse(book.Id, book.Title, book.Author, book.Genre, book.Description, book.PublishDate, book.Price, book.ISBN)).ToList(),
+            Data = books.Select(book => new BookResponse(
+                book.Id, book.Title, book.Author, book.Genre, 
+                book.Description, book.PublishDate, book.Price,
+                book.ISBN)).ToList(),
             Success = true,
             Message = "Books found"
         };

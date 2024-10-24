@@ -11,13 +11,13 @@ namespace BiblioTech.Services.UserService;
 public class UserService(IUserRepository userRepository, AuthenticationService authenticationService)
     : IUserService
 {
-    public async Task<ResultDto<AuthenticateResponse?>> Authenticate(AuthenticateRequest model)
+    public async Task<ResultDto<AuthenticateResponse>> Authenticate(AuthenticateRequest model)
     {
         var user = await userRepository.GetUserByUsername(model.Username);
 
         if (user == null || !authenticationService.VerifyPassword(model.Password, user.HashedPassword, user.Salt))
         {
-            return new ResultDto<AuthenticateResponse?>()
+            return new ResultDto<AuthenticateResponse>()
             {
                 Success = false,
                 Message = "Invalid Credentials"
@@ -25,7 +25,7 @@ public class UserService(IUserRepository userRepository, AuthenticationService a
         }
 
         var token = authenticationService.GenerateJwtToken(user.Username);
-        return new ResultDto<AuthenticateResponse?>()
+        return new ResultDto<AuthenticateResponse>()
         {
             Success = true,
             Data = new AuthenticateResponse()

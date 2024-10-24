@@ -30,7 +30,8 @@ namespace BiblioTech.Test.IntegrationTest
             var stringResponse = await response.Content.ReadAsStringAsync();
             var user = JsonConvert.DeserializeObject<AuthenticateResponse>(stringResponse);
 
-            return user.Token;
+            if (user?.Token != null) return user.Token;
+            throw new Exception("Failed to get token");
         }
 
         [Fact]
@@ -59,6 +60,7 @@ namespace BiblioTech.Test.IntegrationTest
             var books = JsonConvert.DeserializeObject<List<BookResponse>>(stringResponse);
 
             // Assert
+            Assert.NotNull(books);
             Assert.Contains(books, b => b.Title == "The Hobbit");
         }
 
@@ -95,6 +97,7 @@ namespace BiblioTech.Test.IntegrationTest
             
             // Assert
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+            Assert.NotNull(books);
             Assert.Contains(books, b => b.Title == "C# in Depth");
         }
     }

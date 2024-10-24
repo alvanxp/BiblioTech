@@ -21,7 +21,8 @@ public static class JwtAuthentication
                     ValidAudience = builder.Configuration["JwtSettings:Audience"],
                     IssuerSigningKey =
                         new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"])),
+                            Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"] 
+                                                   ?? throw new InvalidOperationException("JwtSettings:Secret is required."))),
                     ClockSkew = TimeSpan.Zero
                 };
             });

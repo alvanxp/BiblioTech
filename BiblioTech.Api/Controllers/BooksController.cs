@@ -47,6 +47,6 @@ public class BooksController(IBookService bookService) : ControllerBase
             return BadRequest(result);
         }
 
-        return CreatedAtRoute(new { id = result.Data.Id }, result.Data);
+        return CreatedAtRoute(new { id = result?.Data?.Id }, result?.Data);
     }
 }

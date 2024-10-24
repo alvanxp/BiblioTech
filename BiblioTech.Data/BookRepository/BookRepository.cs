@@ -6,7 +6,7 @@ namespace BiblioTech.Data;
 
 public class BookRepository(IOptions<ConnectionString> connectionString) : IBookRepository
 {
-    public async Task<List<Book>> GetBooks()
+    public async Task<List<Book>?> GetBooks()
     {
         await using var connection = new SqlConnection(connectionString.Value.DefaultConnection);
         await connection.OpenAsync();
@@ -53,7 +53,7 @@ public class BookRepository(IOptions<ConnectionString> connectionString) : IBook
         return false;
     }
 
-    public Task<Book> GetBookById(int id)
+    public Task<Book?> GetBookById(int id)
     {
         throw new NotImplementedException();
     }

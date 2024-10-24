@@ -39,9 +39,11 @@ public class BookTest
 
         // Act
         var response = await _bookService.GetBooks();
-        List<BookResponse> result = response.Data;
 
         // Assert
+        Assert.NotNull(response);
+        var result = response.Data;
+        Assert.NotNull(result);
         Assert.Equal(books.Count, result.Count);
         Assert.Equal(books[0].Title, result[0].Title);
         Assert.Equal(books[0].Author, result[0].Author);
@@ -104,6 +106,7 @@ public class BookTest
         var result = response.Data;
 
         // Assert
+        Assert.NotNull(result);
         Assert.Equal(book.Title, result.Title);
         Assert.Equal(book.Author, result.Author);
         Assert.Equal(book.Genre, result.Genre);
