@@ -13,17 +13,18 @@ public class BooksController(IBookService bookService) : ControllerBase
 {
     // GET
     [HttpGet]
-   [SwaggerOperation("GetBooks")]
+    [SwaggerOperation("GetBooks")]
     public async Task<IActionResult> Get()
-{
+    {
         var books = await bookService.GetBooks();
         if (!books.Success)
         {
             return NotFound(books.Message);
         }
+
         return Ok(books.Data);
     }
-    // GET
+    
     [HttpGet("{id}")]
     [SwaggerOperation("GetBookById")]
     public async Task<IActionResult> Get(int id)
